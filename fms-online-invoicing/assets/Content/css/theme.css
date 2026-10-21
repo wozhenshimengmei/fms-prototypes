@@ -1,0 +1,12 @@
+﻿/*主题色*/
+:root {
+    --theme-bgc: #409EFF;
+    --theme-bgc-light: #66b1ff; /*悬浮到按钮上的浅蓝色*/
+    --theme-bgc-plain: #ecf5ff; /*带透明度的蓝色*/
+    --theme-border-plain: #c6e2ff; /*带透明度的蓝色边框色*/
+    --theme-bgc-danger: #E6A23C;
+    --theme-bgc-danger-light: #EEBE77;
+    --theme-border-color: #409EFF;
+    --theme-text-color: #409EFF;
+    --theme-text-color-danger: #f56c6c;
+}
