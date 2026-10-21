@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>FMS 加盟商结算系统 · 在线开票原型</title>
+  <link rel="icon" href="assets/Content/img/system_logo.png">
+  <link rel="stylesheet" href="assets/Content/css/framework-font.css">
+  <link rel="stylesheet" href="assets/Content/css/framework-theme.css">
+  <link rel="stylesheet" href="assets/Content/js/jqgrid/jqgrid.css">
+  <link rel="stylesheet" href="assets/Content/css/framework-ui.css">
+  <link rel="stylesheet" href="assets/Content/js/select2/select2.min.css">
+  <link rel="stylesheet" href="assets/Content/js/layui/css/layui.css">
+  <link rel="stylesheet" href="assets/Content/js/layui/css/modules/layer/default/layer.css">
+  <link rel="stylesheet" href="assets/Content/js/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/Content/css/beauty.min.css">
+  <link rel="stylesheet" href="prototype.css">
+</head>
+<body class="theme-blue-gradient">
+  <div id="theme-wrapper" class="theme-3">
+    <div id="page-wrapper" class="container">
+      <aside id="nav-col">
+        <div class="logo" aria-label="FMS加盟商结算系统"></div>
+        <nav id="sidebar-nav" class="navbar-collapse collapse" aria-label="系统菜单">
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="#hotels" data-nav="hotels"><i class="fa fa-hotel"></i><span class="menu-text">酒店信息管理</span></a></li>
+            <li><a href="#subjects" data-nav="subjects"><i class="fa fa-building-o"></i><span class="menu-text">集团主体</span></a></li>
+            <li><a href="#items" data-nav="items"><i class="fa fa-th-list"></i><span class="menu-text">科目配置</span></a></li>
+            <li class="invoice-module">
+              <div class="invoice-module-title" id="invoice-module-title"><i class="fa fa-file-text-o"></i><span>在线开票</span></div>
+              <ul class="nav nav-pills nav-stacked invoice-submenu" aria-labelledby="invoice-module-title">
+                <li><a href="#invoices" data-nav="invoices"><i class="fa fa-file-text-o"></i><span class="menu-text">开票管理</span></a></li>
+                <li><a href="#imports" data-nav="imports"><i class="fa fa-upload"></i><span class="menu-text">发票导入项</span></a></li>
+                <li><a href="#accounts" data-nav="accounts"><i class="fa fa-user"></i><span class="menu-text">开票员账号配置</span></a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <div class="sidebar-user"><img src="assets/Content/img/heard_logo.png" alt="" width="30" height="30"><div><b id="operator-name">占旭婷</b><small>集团财务</small></div><button class="icon-btn" data-action="demo" aria-label="演示设置"><i class="fa fa-cog"></i></button></div>
+      </aside>
+      <main id="content-wrapper">
+        <div class="page-scroll"><div id="app"></div></div>
+      </main>
+    </div>
+  </div>
+  <dialog id="modal" class="layui-layer layui-layer-page fms-modal" aria-labelledby="modal-title">
+    <div class="layui-layer-title" id="modal-title"></div>
+    <button class="modal-x" data-action="close" aria-label="关闭弹窗">×</button>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-error" id="modal-error" role="alert" hidden></div>
+    <div class="layui-layer-btn modal-footer" id="modal-footer"></div>
+  </dialog>
+  <dialog id="subject-transfer-modal" class="layui-layer layui-layer-page fms-modal" aria-labelledby="subject-transfer-title">
+    <div class="layui-layer-title" id="subject-transfer-title">确认变更主体关联</div>
+    <button class="modal-x" data-action="clerk-transfer-cancel" aria-label="关闭弹窗">×</button>
+    <div class="modal-body" id="subject-transfer-body"></div>
+    <div class="layui-layer-btn modal-footer">
+      <button type="button" class="btn secondary" data-action="clerk-transfer-cancel">取消</button>
+      <button type="button" class="btn btn-primary" data-action="clerk-transfer-confirm">确认变更</button>
+    </div>
+  </dialog>
+  <div id="toasts" aria-live="polite"></div>
+  <script src="assets/Content/js/jquery/jquery-2.1.1.min.js"></script>
+  <script src="assets/Content/js/select2/select2.min.js"></script>
+  <script src="catalog.js"></script>
+  <script src="state.js"></script>
+  <script src="online-state.js"></script>
+  <script src="revision-state.js"></script>
+  <script src="import-state.js"></script>
+  <script src="xlsx-reader.js"></script>
+  <script src="account-ui.js"></script>
+  <script src="online-ui.js"></script>
+  <script src="import-ui.js"></script>
+  <script src="offline-ui.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
