@@ -1,7 +1,7 @@
 // 本地模块检查，不启动浏览器、不连接生产接口。
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const ctx={window:{},localStorage:{getItem:()=>null,setItem(){}},console};vm.createContext(ctx);
-for(const file of ['catalog.js','state.js','online-state.js','revision-state.js','import-state.js','import-ui.js','offline-ui.js'])vm.runInContext(fs.readFileSync(__dirname+'/'+file,'utf8'),ctx);
+for(const file of ['catalog.js','state.js','online-state.js','revision-state.js','compliance-state.js','import-state.js','import-ui.js','offline-ui.js'])vm.runInContext(fs.readFileSync(__dirname+'/'+file,'utf8'),ctx);
 const F=ctx.window.FMS,I=ctx.window.FMSImportTypes;let state=F.initial(),modal,templateType,closed=false,renders=0,count=0;
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const btn=(text,action,id='',style='',extra='')=>`<button data-action="${action}" ${extra}>${text}</button>`;

@@ -1,7 +1,7 @@
 // 主体转移的实际 UI 事件、暂存和模型边界检查；不连接外部服务。
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const context={window:{},localStorage:{getItem:()=>null,setItem(){}},console};vm.createContext(context);
-for(const file of ['catalog.js','state.js','online-state.js','revision-state.js','account-ui.js'])vm.runInContext(fs.readFileSync(__dirname+'/'+file,'utf8'),context);
+for(const file of ['catalog.js','state.js','online-state.js','revision-state.js','compliance-state.js','account-ui.js'])vm.runInContext(fs.readFileSync(__dirname+'/'+file,'utf8'),context);
 const F=context.window.FMS;require('./verify-ready.cjs')(F);let count=0;
 function check(name,fn){fn();count++;console.log('PASS '+name);}
 function view(select2=false){

@@ -3,7 +3,7 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const elements=new Map(),events={},urls=[];
 function node(id){if(!elements.has(id))elements.set(id,{innerHTML:'',textContent:'',hidden:true,open:false,value:'',classList:{toggle(){}},showModal(){this.open=true;},close(){this.open=false;},addEventListener(){},append(){}});return elements.get(id);}
 const context={window:{addEventListener(){}},document:{getElementById:node,querySelectorAll:()=>[],addEventListener:(type,fn)=>events[type]=fn,createElement:()=>({remove(){}})},localStorage:{getItem:()=>null,setItem(){}},location:{hash:'#settings'},history:{replaceState:(s,title,url)=>urls.push(url)},setTimeout(){},console};vm.createContext(context);
-for(const file of ['catalog.js','state.js','online-state.js','revision-state.js','import-state.js','account-ui.js','online-ui.js','import-ui.js','offline-ui.js']){vm.runInContext(fs.readFileSync(__dirname+'/'+file,'utf8'),context);Object.assign(context,context.window);}
+for(const file of ['catalog.js','state.js','online-state.js','revision-state.js','compliance-state.js','import-state.js','account-ui.js','online-ui.js','import-ui.js','offline-ui.js']){vm.runInContext(fs.readFileSync(__dirname+'/'+file,'utf8'),context);Object.assign(context,context.window);}
 const F=context.window.FMS;require('./verify-ready.cjs')(F);const s=F.initial();F.load=()=>s;
 context.window.jQuery=()=>({select2(){return this;},on(){return this;}});
 vm.runInContext(fs.readFileSync(__dirname+'/app.js','utf8').replace(/\}\)\(\);\s*$/,'window.test={ui,navigate,subjectEdit,itemEdit,showConfirmation,accountUI,online};})();'),context);
