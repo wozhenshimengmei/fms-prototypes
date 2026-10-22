@@ -1,6 +1,6 @@
 /* 原有系统页面还原；新增/调整标识只用于本次原型对照。 */
 #nav-col{width:220px!important;background:#409eff!important;z-index:10}
-#nav-col .logo{background-color:#409eff!important;min-height:100px}
+#nav-col .logo{background:#409eff url("yst-system-logo.png") no-repeat center center!important;background-size:115px auto!important;min-height:100px}
 #sidebar-nav{overflow-y:auto;overflow-x:hidden;flex:1;min-height:0}
 #sidebar-nav .legacy-navigation>li{margin:0}
 #sidebar-nav .legacy-navigation>li>a{height:44px;padding:0 18px;display:flex;align-items:center;color:#e1efff;background:transparent;font-size:14px;gap:12px}
@@ -70,6 +70,10 @@
 .legacy-subject-form{grid-template-columns:1fr;gap:10px;min-height:160px}
 .legacy-subject-form .fms-field.full{grid-column:auto}
 .legacy-subject-form .checkbox-label{width:auto}
+.legacy-invoice-subject-form .fms-field>label{width:150px;white-space:nowrap}
+.legacy-list .fms-table td.fixed-action{background:#fff}
+.legacy-list .fms-table tbody tr:nth-child(even) td.fixed-action{background:#fafafa}
+.legacy-list .fms-table tbody tr:hover td.fixed-action{background:#f3f9ff}
 .legacy-unit{flex:none;margin-left:-4px}
 @media(max-width:1250px){.legacy-filter .form-control{width:155px}.legacy-filter{flex:0 1 auto}.legacy-action-spacer{display:none}.legacy-tab-tools{display:none}.legacy-hotel-modal{width:850px!important}.legacy-form{gap:10px 18px}}
 @media(max-height:750px){.legacy-list.grow{min-height:330px}.legacy-list .table-scroll{max-height:calc(100vh - 310px)}}
