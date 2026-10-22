@@ -5,6 +5,6 @@ module.exports=function readyFixtures(F){
     for(const user of s.users){F.switchUser(s,user.id);const a=F.clerkAccount(s);if(!a)continue;F.setInvoiceProvider(s,'baiwang');
       const auth=F.accountConnection(s,a.id);Object.assign(auth,{registered:true,username:F.taxAccount(a),status:'可开票',stage:'idle',sessionOnline:true,faceRequired:false,remoteOutcome:'online',reason:''});
       for(const c of F.allowedSubjects(s)){const x=F.connection(s,a.id,c.id);Object.assign(x,{status:'可开票',remoteOutcome:'online',checkedTaxNo:c.tax,subjectTaxNo:c.tax,reason:''});}
-    }F.switchUser(s,userId);return s;
+    }for(const b of s.bills||[])b.invoicePushed=true;F.switchUser(s,userId);return s;
   };return defaultInitial;
 };

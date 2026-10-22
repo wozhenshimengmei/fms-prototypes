@@ -10,7 +10,7 @@
     if(!s.consistencyVersion){
       for(const h of s.stores)h.invoiceKind=h.invoiceKind===undefined?(demo?'普票':''):h.invoiceKind;
       for(const c of s.subjects)c.province=c.id==='101'?'广东':c.id==='102'?'广西':'海南';
-      s.bills=[...new Map(s.fees.map(f=>[f.bill,{id:f.bill,store:f.store,month:f.month,generated:true,reviewStatus:'已审核',voided:false,history:[]}])).values()];
+      const previousBills=new Map((s.bills||[]).map(b=>[b.id,b]));s.bills=[...new Map(s.fees.map(f=>[f.bill,{id:f.bill,store:f.store,month:f.month,generated:true,reviewStatus:'已审核',voided:false,history:[],...previousBills.get(f.bill)}])).values()];
       for(const r of s.records){r.ticketColor='蓝票';r.invoiceKind=r.buyer.invoiceKind||(/普/.test(r.type||'')?'普票':/专/.test(r.type||'')?'专票':'');r.buyer.invoiceKind=r.invoiceKind;r.type=r.invoiceKind;r.projectId=r.fees[0]?.projectId||F.item(s,r.fees[0]?.item)?.projectId||'';r.rate=r.fees[0]?.rate;r.key=key(r);r.redStatus??='未红冲';r.attempts??=[];}
       // 演示旧版数据的红冲历史转成独立红票，原蓝票快照不覆盖。
       for(const r of [...s.records])if(r.redStatus!=='未红冲'){
@@ -20,20 +20,30 @@
       }
       s.consistencyVersion=34;
     }
-    s.bills??=[];return s;
+    s.bills??=[];
+    if(!s.invoicePushVersion){
+      for(const i of s.items)i.invoiceParticipation=i.invoiceParticipation===undefined?!!i.phase:i.invoiceParticipation;
+      for(const b of s.bills){b.invoicePushed=s.records.some(r=>r.fees.some(f=>f.bill===b.id));b.invoicePushedAt=b.invoicePushed?'2026-10-19 09:30:00':'';}
+      for(const r of s.records)r.key=key(r);
+      s.invoicePushVersion=1;
+    }
+    return s;
   }
   F.initial=()=>migrate(oldInitial(),true);F.load=()=>{let saved=false;try{saved=!!JSON.parse(localStorage.getItem(F.KEY));}catch{}return migrate(oldLoad(),!saved);};
-  function key(r){return [r.month,r.store,r.subject,r.kind,r.projectId||'',r.rate??''].join('|');}
-  function allRows(s,approvedOnly=false){const groups=new Map();for(const f of s.fees){const i=F.item(s,f.item);if(approvedOnly){const b=bill(s,f.bill);if(!b?.generated||b.voided||b.reviewStatus!=='已审核')continue;}if(!i?.phase||i.invoiceParticipation===false||!((i.subject==='101'&&i.kind==='店总费用')||(i.subject==='102'&&['店总费用','财务费用'].includes(i.kind))))continue;
-    const r={month:f.month,store:f.store,subject:i.subject,kind:i.kind,projectId:i.projectId||'',rate:i.rate},k=key(r);
+  function key(r){return [r.month,r.store,r.subject,r.kind,r.projectId||'',r.rate??'',r.bill||''].join('|');}
+  const invoiceEnabled=i=>i?.invoiceParticipation===true;
+  function allRows(s,approvedOnly=false){const groups=new Map();for(const f of s.fees){const i=F.item(s,f.item);if(approvedOnly){const b=bill(s,f.bill);if(!b?.generated||b.voided||b.reviewStatus!=='已审核')continue;}if(!invoiceEnabled(i))continue;
+    const r={month:f.month,store:f.store,subject:i.subject,kind:['店总费用','财务费用'].includes(i.kind)?i.kind:i.id,projectId:i.projectId||'',rate:i.rate,bill:f.bill},k=key(r);
     if(!groups.has(k))groups.set(k,{...r,key:k,amount:0,fees:[],bill:f.bill});
     const g=groups.get(k);g.amount+=f.amount;g.fees.push({...f,itemName:i.name,project:i.project,projectId:i.projectId,taxCode:i.taxCode??null,rate:i.rate});
   }return [...groups.values()];}
   function sourceIssues(s,r){const issues=[];if(!r?.fees?.length)return ['来源费用已变化，请重新核对。'];
-    for(const f of r.fees){const b=bill(s,f.bill);if(!b?.generated||b.voided)issues.push('来源账单未生成或已作废');else if(b.reviewStatus!=='已审核')issues.push('来源账单未审核，请先审核账单。');}
+    for(const f of r.fees){const b=bill(s,f.bill);if(!b?.generated||b.voided)issues.push('来源账单未生成或已作废');else if(b.reviewStatus!=='已审核')issues.push('来源账单未审核，请先审核账单。');else if(!b.invoicePushed)issues.push('来源对账单尚未推送开票。');}
     return [...new Set(issues)];
   }
-  const rows=s=>allRows(s,true);
+  const rows=s=>allRows(s,true).filter(r=>bill(s,r.bill)?.invoicePushed);
+  function pushBills(s,ids){const added=[],skipped=[],bad=[];for(const id of new Set(ids)){const b=bill(s,id);if(b?.invoicePushed){skipped.push(id);continue;}let reason='';if(!b?.generated||b.voided)reason='对账单未生成或已作废';else if(b.reviewStatus!=='已审核')reason='对账单未审核，请先审核后推送';else if(!allRows(s).some(r=>r.bill===id))reason='对账单中没有启用开票的科目费用';if(reason){bad.push({id,reason});continue;}b.invoicePushed=true;b.invoicePushedAt=now();b.invoicePushedBy=s.operator;b.history.push({time:now(),actor:s.operator,text:'推送开票'});added.push(id);}return{added,skipped,bad};}
+  function billInvoiceStatus(s,id){const b=bill(s,id);if(!b?.invoicePushed)return '未推送';const required=new Set(allRows(s).filter(r=>r.bill===id).flatMap(r=>r.fees.map(f=>f.id)));const successful=s.records.filter(r=>isBlue(r)&&r.status==='已开票'&&r.redStatus!=='已红冲'&&!r.sourceReleased);const covered=new Set(successful.flatMap(r=>r.fees.filter(f=>f.bill===id&&required.has(f.id)).map(f=>f.id)));return required.size&&covered.size===required.size?'已开票':covered.size?'部分开票':'已推送';}
   function occupied(s,r,exclude=[]){return s.records.some(x=>isBlue(x)&&!exclude.includes(x.id)&&!x.sourceReleased&&!(x.status==='开票失败'&&x.retryIds?.length)&&intersects(x,r));}
   const pending=s=>rows(s).filter(r=>!occupied(s,r));
   function scopeSubjects(s){const a=F.clerkAccount(s);if(!a||!F.accountOwned(s,a))return [];const login=F.taxAccount(a);if(!login||s.accounts.filter(x=>x.active!==false&&F.taxAccount(x)===login).length!==1)return [];return F.allowedSubjects(s);}
@@ -109,5 +119,5 @@
   function exportLine(s,r,number=''){return[r.key,r.store,r.month,r.subject,r.kind==='财务费用'?'财务费用':[...new Set(r.fees.map(f=>f.itemName))].join('、'),r.fees[0]?.project||'',r.rate+'%',F.store(s,r.store)?.invoiceKind||'',F.money(r.amount),String(number||'')];}
   function offlineExport(s,rs,numbers={}){return[offlineHeaders,...rs.map(r=>exportLine(s,r,numbers[r.key]))];}
   function previewOfflineNumbers(s,rs,data,numbers,parentId=''){if(data.length<2||data[0].join('|')!==offlineHeaders.join('|'))throw Error('请使用最新导出的线下票号清单，保持表头不变。');const seen=new Set(),counts=new Map();return data.slice(1).map((line,i)=>{const r=rs.find(r=>r.key===line[0]),issues=[],number=String(line[9]||'').trim(),key=line[0];if(!r)issues.push('无法匹配本次所选记录');if(seen.has(key))issues.push('文件内匹配标识重复');seen.add(key);if(r){const current=allRows(s).find(x=>x.key===key);if(!current||JSON.stringify(line.slice(1,9))!==JSON.stringify(exportLine(s,current).slice(1,9)))issues.push('归集数据或核对列已变化，请重新导出');if(sourceIssues(s,r).length)issues.push(...sourceIssues(s,r));if(!parentId&&occupied(s,r))issues.push('来源已存在开票记录');if(number)issues.push(...F.offlineNumberIssues(s,r,number));}const numberKey=F.subject(s,r?.subject)?.tax+'|'+number;if(number)counts.set(numberKey,(counts.get(numberKey)||0)+1);return{key,r,line:i+2,number,old:String(numbers[key]||''),issues,numberKey};}).map(v=>{if(v.number&&counts.get(v.numberKey)>1)v.issues.push('文件内同销方发票号码重复');return v;});}
-  Object.assign(F,{key,bill,allRows,rows,pending,occupied,sourceIssues,scopeSubjects,visiblePending,visibleRecords,visibleRecord,visibleRow,snapshot,offlineSnapshot,remark,readiness,offlineReadiness,submit,submitOffline,result,retry,retryLatest,currentPlan,redEligible,submitOnlineRed,registerOfflineRed,onlineRedResult,retryRed,reissueRows,reissueRow,reissueMany,reissue,canReissue,reverseReview,approveBill,updateBillFee,displayStatus,recordMessage,sourceAuditSummary,signedCents,netInvoiceAmount,provinceContext,beginProvinceLogin,completeProvinceLogin,offlineHeaders,offlineExport,previewOfflineNumbers});
+  Object.assign(F,{key,bill,allRows,rows,pending,occupied,sourceIssues,invoiceEnabled,pushBills,billInvoiceStatus,scopeSubjects,visiblePending,visibleRecords,visibleRecord,visibleRow,snapshot,offlineSnapshot,remark,readiness,offlineReadiness,submit,submitOffline,result,retry,retryLatest,currentPlan,redEligible,submitOnlineRed,registerOfflineRed,onlineRedResult,retryRed,reissueRows,reissueRow,reissueMany,reissue,canReissue,reverseReview,approveBill,updateBillFee,displayStatus,recordMessage,sourceAuditSummary,signedCents,netInvoiceAmount,provinceContext,beginProvinceLogin,completeProvinceLogin,offlineHeaders,offlineExport,previewOfflineNumbers});
 })();

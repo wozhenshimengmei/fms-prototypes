@@ -81,3 +81,7 @@
 .legacy-unit{flex:none;margin-left:-4px}
 @media(max-width:1250px){.legacy-filter .form-control{width:155px}.legacy-filter{flex:0 1 auto}.legacy-action-spacer{display:none}.legacy-tab-tools{display:none}.legacy-hotel-modal{width:850px!important}.legacy-form{gap:10px 18px}}
 @media(max-height:750px){.legacy-list.grow{min-height:330px}.legacy-list .table-scroll{max-height:calc(100vh - 310px)}}
+
+/* 科目开票配置开关沿用现有蓝色控件。 */
+.item-invoice-switch{display:flex;align-items:center;gap:10px;min-height:30px}
+.item-invoice-switch .settings-switch:focus-visible{outline:2px solid #409eff;outline-offset:3px}
