@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="assets/Content/js/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="assets/Content/css/beauty.min.css">
   <link rel="stylesheet" href="prototype.css">
+  <link rel="stylesheet" href="existing-ui.css">
 </head>
 <body class="theme-blue-gradient">
   <div id="theme-wrapper" class="theme-3">
@@ -22,24 +23,16 @@
       <aside id="nav-col">
         <div class="logo" aria-label="FMS加盟商结算系统"></div>
         <nav id="sidebar-nav" class="navbar-collapse collapse" aria-label="系统菜单">
-          <ul class="nav nav-pills nav-stacked">
-            <li><a href="#hotels" data-nav="hotels"><i class="fa fa-hotel"></i><span class="menu-text">酒店信息管理</span></a></li>
-            <li><a href="#bills" data-nav="bills"><i class="fa fa-list-alt"></i><span class="menu-text">账单管理</span></a></li>
-            <li><a href="#subjects" data-nav="subjects"><i class="fa fa-building-o"></i><span class="menu-text">集团主体</span></a></li>
-            <li><a href="#items" data-nav="items"><i class="fa fa-th-list"></i><span class="menu-text">科目配置</span></a></li>
-            <li class="invoice-module">
-              <div class="invoice-module-title" id="invoice-module-title"><i class="fa fa-file-text-o"></i><span>在线开票</span></div>
-              <ul class="nav nav-pills nav-stacked invoice-submenu" aria-labelledby="invoice-module-title">
-                <li><a href="#invoices" data-nav="invoices"><i class="fa fa-file-text-o"></i><span class="menu-text">开票管理</span></a></li>
-                <li><a href="#imports" data-nav="imports"><i class="fa fa-upload"></i><span class="menu-text">发票导入项</span></a></li>
-                <li><a href="#accounts" data-nav="accounts"><i class="fa fa-user"></i><span class="menu-text">开票员账号配置</span></a></li>
-              </ul>
-            </li>
+          <ul class="nav nav-pills nav-stacked legacy-navigation">
+<li id="menu-financial" class="legacy-menu-group"><a href="#" class="legacy-parent" data-action="legacy-menu" data-id="financial"><i class="fa fa-paypal"></i><span class="menu-text">财务信息管理</span><i class="fa fa-angle-right legacy-chevron"></i></a><ul class="legacy-submenu"><li><a href="#hotels" data-nav="hotels"><span class="menu-text">酒店信息管理</span></a></li><li><a href="#" data-static-menu><span class="menu-text">加盟商信息管理</span></a></li><li><a href="#items" data-nav="items"><span class="menu-text">科目管理</span></a></li><li><a href="#" data-static-menu><span class="menu-text">酒店科目配置</span></a></li><li><a href="#" data-static-menu><span class="menu-text">管理费计算规则</span></a></li><li><a href="#" data-static-menu><span class="menu-text">运营目标</span></a></li><li><a href="#" data-static-menu><span class="menu-text">佣金计算规则</span></a></li><li><a href="#" data-static-menu><span class="menu-text">结算数据明细</span></a></li><li><a href="#" data-static-menu><span class="menu-text">结算数据汇总</span></a></li></ul></li>
+<li id="menu-bills" class="legacy-menu-group"><a href="#" class="legacy-parent" data-action="legacy-menu" data-id="bills"><i class="fa fa-desktop"></i><span class="menu-text">对账单管理</span><i class="fa fa-angle-right legacy-chevron"></i></a><ul class="legacy-submenu"><li><a href="#" data-static-menu><span class="menu-text">账单设置</span></a></li><li><a href="#bills" data-nav="bills"><span class="menu-text">对账单管理</span></a></li></ul></li>
+<li><a href="#" data-static-menu><i class="fa fa-cny"></i><span class="menu-text">门店对账管理</span><i class="fa fa-angle-right legacy-chevron"></i></a></li><li id="menu-group" class="legacy-menu-group"><a href="#" class="legacy-parent" data-action="legacy-menu" data-id="group"><i class="fa fa-building-o"></i><span class="menu-text">集团收入统计</span><i class="fa fa-angle-right legacy-chevron"></i></a><ul class="legacy-submenu"><li><a href="#subjects" data-nav="subjects"><span class="menu-text">集团主体管理</span></a></li><li><a href="#" data-static-menu><span class="menu-text">门店贡献集团收入明细</span></a></li><li><a href="#" data-static-menu><span class="menu-text">各主体收入汇总表</span></a></li></ul></li>
+<li><a href="#" data-static-menu><i class="fa fa-money"></i><span class="menu-text">预结管理</span><i class="fa fa-angle-right legacy-chevron"></i></a></li><li><a href="#" data-static-menu><i class="fa fa-area-chart"></i><span class="menu-text">报表管理</span><i class="fa fa-angle-right legacy-chevron"></i></a></li><li><a href="#" data-static-menu><i class="fa fa-cogs"></i><span class="menu-text">系统管理</span><i class="fa fa-angle-right legacy-chevron"></i></a></li><li id="menu-online" class="legacy-menu-group"><a href="#" class="legacy-parent" data-action="legacy-menu" data-id="online"><i class="fa fa-file-text-o"></i><span class="menu-text">在线开票</span><i class="fa fa-angle-right legacy-chevron"></i></a><ul class="legacy-submenu"><li><a href="#invoices" data-nav="invoices"><span class="menu-text">开票管理</span></a></li><li><a href="#imports" data-nav="imports"><span class="menu-text">发票导入项</span></a></li><li><a href="#accounts" data-nav="accounts"><span class="menu-text">开票员账号配置</span></a></li></ul></li>
           </ul>
         </nav>
-        <div class="sidebar-user"><img src="assets/Content/img/heard_logo.png" alt="" width="30" height="30"><div><b id="operator-name">占旭婷</b><small>集团财务</small></div><button class="icon-btn" data-action="demo" aria-label="演示设置"><i class="fa fa-cog"></i></button></div>
+        <div class="sidebar-shortcuts"><i class="fa fa-home"></i><i class="fa fa-envelope-o"></i></div><div class="sidebar-user"><img src="assets/Content/img/heard_logo.png" alt="" width="30" height="30"><div><b id="operator-name">占旭婷</b><small>集团财务</small></div><button class="icon-btn" data-action="demo" aria-label="演示设置"><i class="fa fa-cog"></i></button></div>
       </aside>
-      <main id="content-wrapper">
+      <main id="content-wrapper"><div class="legacy-top-tabs"><span class="tab-scroll-control">◂</span><nav id="work-tabs" aria-label="工作页签"></nav><span class="tab-scroll-control">▸</span><span class="legacy-tab-tools">页签操作⌄　×</span></div>
         <div class="page-scroll"><div id="app"></div></div>
       </main>
     </div>
@@ -74,6 +67,7 @@
   <script src="online-ui.js"></script>
   <script src="import-ui.js"></script>
   <script src="offline-ui.js"></script>
+  <script src="existing-ui.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

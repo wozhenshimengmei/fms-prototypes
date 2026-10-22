@@ -4,7 +4,7 @@ const nodes=new Map(),events={};
 function element(id){if(!nodes.has(id))nodes.set(id,{innerHTML:'',textContent:'',hidden:true,open:false,classList:{toggle(){}},showModal(){this.open=true;},close(){this.open=false;},addEventListener(){},append(){}});return nodes.get(id);}
 const context={window:{addEventListener(){}},document:{getElementById:element,querySelectorAll:()=>[],addEventListener:(type,fn)=>events[type]=fn,createElement:()=>({remove(){}})},localStorage:{getItem:()=>null,setItem(){}},location:{hash:'#invoices'},history:{replaceState(){}},setTimeout(){},console};
 vm.createContext(context);
-for(const file of ['catalog.js','state.js','online-state.js','revision-state.js','compliance-state.js','import-state.js','account-ui.js','online-ui.js','import-ui.js','offline-ui.js']){vm.runInContext(readFileSync(__dirname+'/'+file,'utf8'),context);Object.assign(context,context.window);}
+for(const file of ['catalog.js','state.js','online-state.js','revision-state.js','compliance-state.js','import-state.js','account-ui.js','online-ui.js','import-ui.js','offline-ui.js','existing-ui.js']){vm.runInContext(readFileSync(__dirname+'/'+file,'utf8'),context);Object.assign(context,context.window);}
 const F=context.window.FMS;require('./verify-ready.cjs')(F);const s=F.initial();let count=0;
 function check(name,fn){fn();count++;console.log('PASS '+name);}
 check('相同名称的不同科目、不同主体分别汇总，且不修改来源',()=>{

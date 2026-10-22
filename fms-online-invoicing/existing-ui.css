@@ -1,0 +1,75 @@
+/* 原有系统页面还原；新增/调整标识只用于本次原型对照。 */
+#nav-col{width:220px!important;background:#409eff!important;z-index:10}
+#nav-col .logo{background-color:#409eff!important;min-height:100px}
+#sidebar-nav{overflow-y:auto;overflow-x:hidden;flex:1;min-height:0}
+#sidebar-nav .legacy-navigation>li{margin:0}
+#sidebar-nav .legacy-navigation>li>a{height:44px;padding:0 18px;display:flex;align-items:center;color:#e1efff;background:transparent;font-size:14px;gap:12px}
+#sidebar-nav .legacy-navigation li>a .menu-text{color:inherit!important;font-size:inherit!important}
+#sidebar-nav .legacy-navigation li>a>i{color:inherit!important;width:18px;margin:0}
+#sidebar-nav .legacy-navigation .legacy-chevron{margin-left:auto;width:10px;font-size:13px}
+#sidebar-nav .legacy-submenu{display:none;list-style:none;padding:0;margin:0;background:transparent}
+#sidebar-nav .expanded>.legacy-submenu{display:block}
+#sidebar-nav .expanded>.legacy-parent>.legacy-chevron{transform:rotate(90deg)}
+#sidebar-nav .legacy-navigation .legacy-submenu>li>a{height:38px;padding:0 12px 0 66px;display:flex;align-items:center;font-size:14px;color:#e1efff!important;background:transparent;white-space:nowrap;text-decoration:none}
+#sidebar-nav .legacy-navigation .legacy-submenu>li.active>a{color:white!important;background:#6fb6ff!important;border-radius:0}
+#sidebar-nav .legacy-navigation li>a:hover{background:#ffffff12}
+#sidebar-nav [data-static-menu]{cursor:default}
+.sidebar-shortcuts{display:flex;gap:14px;color:white;border-top:1px solid #ffffff66;padding:12px 14px 4px;font-size:25px;flex:none}
+.sidebar-user{margin:8px 10px;padding:10px;background:#ffffff26;border-radius:8px;flex:none;min-height:48px}
+.sidebar-user small{display:none}
+#content-wrapper{display:flex;flex-direction:column}
+.legacy-top-tabs{height:45px;min-height:45px;display:flex;align-items:stretch;background:#fff;border-bottom:1px solid #ebeef5}
+#work-tabs{display:flex;flex:1;overflow:auto;align-items:stretch;min-width:0}
+#work-tabs>a{padding:0 18px;white-space:nowrap;display:flex;align-items:center;color:#606266;border-bottom:2px solid transparent;text-decoration:none;font-size:12px}
+#work-tabs>a.active{color:#409eff;border-bottom-color:#409eff}
+.tab-scroll-control{width:40px;display:flex;align-items:center;justify-content:center;border-right:1px solid #ebeef5;color:#909399;flex:none}
+.legacy-tab-tools{padding:0 15px;display:flex;align-items:center;white-space:nowrap;color:#909399;border-left:1px solid #ebeef5}
+.page-scroll{height:auto;flex:1;min-height:0}
+.legacy-search{border:0;border-radius:0;padding:14px 15px 12px}
+.legacy-filter-row{display:flex;gap:10px 16px;flex-wrap:wrap;align-items:center}
+.legacy-filter{display:flex;gap:7px;align-items:center;min-width:0}
+.legacy-filter>label{width:74px;text-align:right;margin:0;font-weight:400;flex:none;white-space:nowrap}
+.legacy-filter .form-control{width:170px;height:30px;min-width:0;font-size:12px;padding:4px 7px;border-radius:4px}
+.legacy-filter:has(label:empty)>label{display:none}
+.legacy-filter:has(label:empty) .form-control{width:235px}
+.legacy-filter.month-range .form-control{width:130px}
+.legacy-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.legacy-actions .btn{white-space:nowrap}
+.legacy-action-spacer{flex:1;min-width:30px}
+.legacy-list{padding:0!important;border-radius:0;border:0;gap:0}
+.legacy-list .table-scroll{border:0;min-height:100px}
+.legacy-list .fms-table th,.legacy-list .fms-table td{border-right:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left;padding:6px 8px;line-height:22px}
+.legacy-list .fms-table th{padding:8px;font-weight:400}
+.legacy-list .fms-table .amount{text-align:right}
+.legacy-list .fms-table .label{padding:0 8px;min-height:20px;line-height:19px}
+.legacy-list .link-btn{color:inherit}
+.legacy-list .fixed-action .link-btn{color:#409eff}
+.legacy-list tbody tr[data-action]{cursor:pointer}
+.legacy-list .fms-table td.fixed-action{background:inherit}
+.legacy-list .fms-table th.fixed-action{background:#f5f7fa}
+.legacy-pager{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:7px 12px;border-top:1px solid #ebeef5;font-size:12px;flex:none;background:#fff}
+.legacy-pager>div{display:flex;align-items:center;gap:10px}
+.legacy-pager .btn{min-height:22px;height:24px;padding:0 5px;border:0}
+.legacy-pager select{height:24px;background:#fff;border:1px solid #dcdfe6;border-radius:3px;width:55px}
+.legacy-grid-total{display:flex;justify-content:space-between;gap:25px;padding:12px 30px;border-top:1px solid #ebeef5;flex:none;background:#fafafa}
+.delta-label{font-weight:400;font-size:10px;color:#409eff;background:#ecf5ff;border:1px solid #c6e2ff;border-radius:3px;padding:1px 4px;margin-left:5px;vertical-align:middle;white-space:nowrap;line-height:16px;display:inline-block}
+.delta-label[data-origin=changed]{color:#b88230;background:#fdf6ec;border-color:#faecd8}
+.btn-danger .delta-label{background:#fff3;border-color:#ffffff80;color:white}
+.legacy-form{gap:10px 26px}
+.legacy-form .fms-field>label{width:120px;white-space:nowrap}
+.legacy-form .fms-field>.form-control{background:#fff}
+.legacy-form .fms-field>.form-control[readonly]{background:#eee;color:#606266}
+.legacy-form .fms-field label.checkbox-label{width:auto;text-align:left}
+.legacy-hotel-modal{width:850px!important;max-height:calc(100vh - 60px)}
+.legacy-hotel-modal .modal-body{padding:18px 35px 25px}
+.legacy-form-gap{height:30px}
+.legacy-remittance{height:150px!important}
+.legacy-section-title{font-size:13px;margin:22px 0 16px;padding:12px 0 8px;border-top:1px solid #ebeef5;display:flex;align-items:center}
+.invoice-profile .fms-field>label{width:148px;white-space:nowrap}
+.invoice-profile .fms-field.full>label{width:120px}
+.legacy-subject-form{grid-template-columns:1fr;gap:10px;min-height:160px}
+.legacy-subject-form .fms-field.full{grid-column:auto}
+.legacy-subject-form .checkbox-label{width:auto}
+.legacy-unit{flex:none;margin-left:-4px}
+@media(max-width:1250px){.legacy-filter .form-control{width:155px}.legacy-filter{flex:0 1 auto}.legacy-action-spacer{display:none}.legacy-tab-tools{display:none}.legacy-hotel-modal{width:850px!important}.legacy-form{gap:10px 18px}}
+@media(max-height:750px){.legacy-list.grow{min-height:330px}.legacy-list .table-scroll{max-height:calc(100vh - 310px)}}

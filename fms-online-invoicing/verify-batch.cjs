@@ -3,7 +3,7 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 function fixture(withUI=false){
   const nodes=new Map();function node(id){if(!nodes.has(id))nodes.set(id,{id,innerHTML:'',textContent:'',hidden:true,open:false,classList:{toggle(){}},showModal(){this.open=true;},close(){this.open=false;},addEventListener(){},append(){}});return nodes.get(id);}
   const context={window:{addEventListener(){}},document:{getElementById:node,querySelectorAll:()=>[],addEventListener(){},createElement:()=>({remove(){}})},localStorage:{getItem:()=>null,setItem(){}},location:{hash:'#invoices'},history:{replaceState(){}},setTimeout(){},console};vm.createContext(context);
-  for(const file of ['catalog.js','state.js','online-state.js','revision-state.js','compliance-state.js','import-state.js','account-ui.js','online-ui.js','import-ui.js','offline-ui.js']){vm.runInContext(fs.readFileSync(__dirname+'/'+file,'utf8'),context);Object.assign(context,context.window);}
+  for(const file of ['catalog.js','state.js','online-state.js','revision-state.js','compliance-state.js','import-state.js','account-ui.js','online-ui.js','import-ui.js','offline-ui.js','existing-ui.js']){vm.runInContext(fs.readFileSync(__dirname+'/'+file,'utf8'),context);Object.assign(context,context.window);}
   const F=context.window.FMS;require('./verify-ready.cjs')(F);const s=F.initial();F.load=()=>s;
   if(withUI)vm.runInContext(fs.readFileSync(__dirname+'/app.js','utf8').replace(/\}\)\(\);\s*$/,'window.test={ui,showConfirmation,act};})();'),context);
   const row=(store,subject='101',kind='店总费用')=>F.pending(s).find(r=>r.store===store&&r.subject===subject&&r.kind===kind);
