@@ -1,6 +1,10 @@
 /* 原有系统页面还原；新增/调整标识只用于本次原型对照。 */
 #nav-col{width:220px!important;background:#409eff!important;z-index:10}
-#nav-col .logo{background:#409eff url("yst-system-logo.png") no-repeat center center!important;background-size:115px auto!important;min-height:100px}
+#nav-col .logo{background:#409eff!important;min-height:100px;display:flex;align-items:center;justify-content:center}
+#nav-col .fms-brand{color:white;text-align:center;transform:skew(-9deg);line-height:1}
+#nav-col .fms-brand>span{display:block;font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:21px;letter-spacing:-1.7px;text-shadow:0 1px 1px #1865b8}
+#nav-col .fms-brand strong{font-weight:700}
+#nav-col .fms-brand>small{display:block;margin-top:6px;font:600 8px "Microsoft YaHei",sans-serif;letter-spacing:2px;transform:skew(9deg)}
 #sidebar-nav{overflow-y:auto;overflow-x:hidden;flex:1;min-height:0}
 #sidebar-nav .legacy-navigation>li{margin:0}
 #sidebar-nav .legacy-navigation>li>a{height:44px;padding:0 18px;display:flex;align-items:center;color:#e1efff;background:transparent;font-size:14px;gap:12px}
